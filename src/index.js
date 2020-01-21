@@ -46,7 +46,7 @@ class App extends React.Component {
       <Provider store={this.store}>
         <div>
           <p>This is the main App page</p>
-          <SomeContainer />
+          
           {/* <Viewer /> */}
           {/* <Viewer height={this.store.height} width={this.store.width} depth={this.store.depth} /> */}
 
@@ -92,6 +92,7 @@ class App extends React.Component {
             onChange={(e) => {
               this.store.dispatch({ type: "UPDATE_WIDTH", newWidth: e.target.value });
             }}/>
+            <SomeContainer />
           
         </div>
       </Provider>
