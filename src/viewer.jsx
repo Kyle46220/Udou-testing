@@ -13,6 +13,8 @@ var THREE = require('three');
 OBJLoader(THREE);
 MTLLoader(THREE);
 
+// var myOBJ 
+
 
 
 
@@ -31,13 +33,15 @@ class Viewer extends React.Component {
     this.sceneSetup();
     this.addCustomSceneObjects();
     this.startAnimationLoop();
-    this.setControls();
+    // this.setControls();
+    this.loadObject();
   }
 
   componentDidUpdate() {
-    
+
     this.updateScale()
-    
+    // this.loadObject()
+
   }
 
   sceneSetup = () => {
@@ -53,7 +57,10 @@ class Viewer extends React.Component {
     );
 
     // set some distance from a cube that is located at z = 0
-    this.camera.position.z = 5;
+    this.camera.position.z = 2000;
+    // this.camera.position.y = 2500;
+    // this.camera.position.z = 2000;
+
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
@@ -64,7 +71,7 @@ class Viewer extends React.Component {
 
   addCustomSceneObjects = () => {
     const geometry = new THREE.BoxGeometry(this.props.height, this.props.width, this.props.depth);
-    
+
     console.log(this.props.height)
     const material = new THREE.MeshPhongMaterial({
       color: 0x156289,
@@ -73,7 +80,7 @@ class Viewer extends React.Component {
       flatShading: true
     });
     this.cube = new THREE.Mesh(geometry, material);
-    this.scene.add(this.cube);
+    // this.scene.add(this.cube);
     console.log(`The scale is: ${this.cube.scale}`)
 
     const lights = [];
@@ -81,20 +88,28 @@ class Viewer extends React.Component {
     lights[1] = new THREE.PointLight(0xffffff, 1, 0);
     lights[2] = new THREE.PointLight(0xffffff, 1, 0);
 
-    lights[0].position.set(0, 200, 0);
-    lights[1].position.set(100, 200, 100);
-    lights[2].position.set(- 100, - 200, - 100);
+    lights[0].position.set(0, 2000, 0);
+    lights[1].position.set(1000, 2000, 1000);
+    lights[2].position.set(- 1000, - 2000, - 1000);
 
     this.scene.add(lights[0]);
     this.scene.add(lights[1]);
     this.scene.add(lights[2]);
 
+    this.loadObject();
+
+
+
+
+    // objLoader.object.scale.x = this.props.height
+    // objLoader.parse(object)
+
+
     // this.geometry.attributes.position.needsUpdate = true;
-    
-    
+
+
   }
-  setControls = () =>
-  {
+  setControls = () => {
     const control = new TransformControls(this.camera, this.renderer.domElement)
     console.log(control)
     control.addEventListener("change", this.renderer.render)
@@ -104,27 +119,86 @@ class Viewer extends React.Component {
     control.showX = true;
   }
 
-  updateScale = () =>
-  {
-    
-    this.cube.scale.x = this.props.height
-    
-    this.cube.scale.y = this.props.depth
-    this.cube.scale.z = this.props.width
+  updateScale = () => {
+
+
+    this.myOBJ.scale.x = this.props.height
+
+    this.myOBJ.scale.y = this.props.depth
+    this.myOBJ.scale.z = this.props.width
   }
+
+  loadObject = () => {
+
+    // var mtlLoader = new MTLLoader();
+
+    const scene = this.scene
+    // const newProps = this.props
+    // var myObj = this.myObj
+    
+    // mtlLoader.setPath('./');
+
+    // mtlLoader.load('2020 Jan Kylie Dillon Bookcase.mtl', function (materials) {
+
+    //   materials.preload();
+      const objLoader = new THREE.OBJLoader()
+
+      objLoader.setPath('./')
+
+      
+
+      objLoader.load('2020 Jan Kylie Dillon Bookcase.obj', (object) => {
+        scene.add(object);
+
+        object.scale.set(this.props.height, this.props.width, this.props.depth);
+        object.position.set(0, 1000, 0);
+        this.myOBJ = object;
+        // console.log(`object:${myOBJ}`);
+        // console.log(myOBJ.children[0])
+      
+
+    });
+
+
+
+
+
+
+      //   var objLoader = new THREE.OBJLoader();
+      //   // objLoader.setMaterials(materials);
+      //   objLoader.setPath('../src');
+      //   objLoader.load('./2020 Jan Kylie Dillon Bookcase.obj', function (object) {
+
+      //     scene.add(object);
+      //     object.scale.set(2, .5, .5);
+
+      //   });
+
+      // // });
+
+      // const objLoader = new THREE.OBJLoader()
+      // objLoader.load( './src/2020 Jan Kylie Dillon Bookcase.obj', (object) =>
+      // {
+      //   scene.add(object);
+      //   console.log(`object:${object}`);
+      //   object.scale.set(2, .5, .5)
+      // });
+    }
+
+
 
   startAnimationLoop = () => {
-    this.cube.rotation.x += 0.01;
-    this.cube.rotation.y += 0.01;
-    this.renderer.render(this.scene, this.camera);
-    this.requestID = window.requestAnimationFrame(this.startAnimationLoop);
+        this.cube.rotation.x += 0.01;
+        this.cube.rotation.y += 0.01;
+        this.renderer.render(this.scene, this.camera);
+        this.requestID = window.requestAnimationFrame(this.startAnimationLoop);
 
-  }
+      }
 
 
 
   render() {
-    return (<div className="viewer" ref={ref => (this.el = ref)} />);
+      return(<div className = "viewer" ref = { ref => (this.el = ref)} />);
   }
 }
 
