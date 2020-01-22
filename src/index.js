@@ -1,17 +1,14 @@
 import React from "react";
 import { render } from "react-dom";
-import MainView from "./main";
 import Viewer from "./viewer";
 import Slider from './slider.jsx';
-
-
 import { createStore } from 'redux';
-
 import { Provider } from 'react-redux';
-import SomeContainer from './someContainer';
+import ViewerContainer from './someContainer';
+import FormContainer from './formContainer';
 
 
-const initialState = { height: 2, width: 2, depth: 2, colour: "" }
+const initialState = { height: 2, width: 2, depth: 2, colour: "White" }
 
 class App extends React.Component {
 
@@ -31,6 +28,9 @@ class App extends React.Component {
       case "UPDATE_DEPTH":
         newState = { ...state, depth: action.newDepth };
         break
+      case "UPDATE_COLOUR":
+        newState = { ...state, colour: action.newColour };
+        break
 
 
       default: newState = { ...state }
@@ -44,56 +44,14 @@ class App extends React.Component {
 
     return (
       <Provider store={this.store}>
-        <div>
-          <p>This is the main App page</p>
-          
-          {/* <Viewer /> */}
-          {/* <Viewer height={this.store.height} width={this.store.width} depth={this.store.depth} /> */}
+        <div className='config-container'>
 
-          <Slider
-            type="range"
-            defaultValue={this.store.defaultValue}
-            // min={this.props.min}
-            min={0.5}
-            // max={this.props.max}
-            max={3}
-            value={this.store.height}
-            // step={this.props.step}
-            step={0.1}
-            onChange={(e) => {
-              this.store.dispatch({ type: "UPDATE_HEIGHT", newHeight: e.target.value });
-            }}
-          />
-          <Slider
-            type="range"
-            defaultValue={this.store.defaultValue}
-            // min={this.props.min}
-            min={0.5}
-            // max={this.props.max}
-            max={3}
-            value={this.store.depth}
-            // step={this.props.step}
-            step={0.1}
-            onChange={(e) => {
-              this.store.dispatch({ type: "UPDATE_DEPTH", newDepth: e.target.value });
-            }}
-            
-          />
-          <Slider
-            type="range"
-            defaultValue={this.store.defaultValue}
-            // min={this.props.min}
-            min={0.5}
-            // max={this.props.max}
-            max={3}
-            value={this.store.width}
-            // step={this.props.step}
-            step={0.1}
-            onChange={(e) => {
-              this.store.dispatch({ type: "UPDATE_WIDTH", newWidth: e.target.value });
-            }}/>
-            <SomeContainer />
-          
+
+
+
+          <ViewerContainer />
+          <FormContainer />
+
         </div>
       </Provider>
     )

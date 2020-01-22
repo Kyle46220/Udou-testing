@@ -15,10 +15,10 @@ function mapStateToProps(state) {
   }
 }
 
-class SomeContainer extends React.Component {
+class ViewerContainer extends React.Component {
   render() {
     return (
-      <div className="arbitrary-inner-block">
+      <div className="viewer-container">
         {/* <div><MainView /></div> */}
         {/* <Slider
           type="range"
@@ -48,7 +48,7 @@ class SomeContainer extends React.Component {
             this.props.dispatch({ type: "UPDATE_HEIGHT", newHeight: e.target.value });
           }} 
           /> */}
-          <Viewer height={this.props.height} width={this.props.width} depth={this.props.depth} />
+          <Viewer />
 
 
       </div>
@@ -58,4 +58,4 @@ class SomeContainer extends React.Component {
 
 // export default SomeContainer
 
-export default connect(mapStateToProps)(SomeContainer);
+export default connect(mapStateToProps)(ViewerContainer);

@@ -60,9 +60,9 @@ class Viewer extends React.Component {
     // set some distance from a cube that is located at z = 0
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 2000;
+    this.camera.position.z = 50;
 
-
+      this.camera.aspect = (width/height);
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
     this.el.appendChild(this.renderer.domElement); // mount using React ref
@@ -70,7 +70,16 @@ class Viewer extends React.Component {
     // controls.width = width;
     // controls.height = height;
     // controls.update();
-    
+    function resizeRendererToDisplaySize(renderer) {
+      const canvas = renderer.domElement;
+      const width = canvas.clientWidth
+      const height = canvas.clientHeight
+      const needResize = canvas.width !== width || canvas.height !== height
+      if (needResize)
+      {
+        renderer.setSize(width, height, false)
+      }
+    }
 
   }
 
@@ -235,14 +244,22 @@ class Viewer extends React.Component {
     // });
   }
 
-
+ resizeRendererToDisplaySize = (renderer) => {
+    const canvas = this.renderer.domElement;
+    const width = canvas.clientWidth
+    const height = canvas.clientHeight
+    const needResize = canvas.width !== width || canvas.height !== height
+    if (needResize)
+    {
+      renderer.setSize(width, height, false)
+    }
+  }
 
   startAnimationLoop = () => {
-    this.cube.rotation.x += 0.01;
-    this.cube.rotation.y += 0.01;
+    
     this.renderer.render(this.scene, this.camera);
     this.requestID = window.requestAnimationFrame(this.startAnimationLoop);
-
+    this.resizeRendererToDisplaySize(this.renderer);
   }
 
 
