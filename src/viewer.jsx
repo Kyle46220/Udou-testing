@@ -41,6 +41,7 @@ class Viewer extends React.Component {
   componentDidUpdate() {
 
     this.updateScale()
+
     // this.loadObject()
 
   }
@@ -54,7 +55,7 @@ class Viewer extends React.Component {
       75, // fov = field of view
       width / height, // aspect ratio
       0.1, // near plane
-      1000*10 // far plane
+      1000 * 10 // far plane
     );
 
     // set some distance from a cube that is located at z = 0
@@ -62,7 +63,7 @@ class Viewer extends React.Component {
     this.camera.position.y = 0;
     this.camera.position.z = 50;
 
-      this.camera.aspect = (width/height);
+    this.camera.aspect = (width / height);
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
     this.el.appendChild(this.renderer.domElement); // mount using React ref
@@ -75,8 +76,7 @@ class Viewer extends React.Component {
       const width = canvas.clientWidth
       const height = canvas.clientHeight
       const needResize = canvas.width !== width || canvas.height !== height
-      if (needResize)
-      {
+      if (needResize) {
         renderer.setSize(width, height, false)
       }
     }
@@ -97,7 +97,7 @@ class Viewer extends React.Component {
     });
     this.cube = new THREE.Mesh(geometry, material);
     // this.scene.add(this.cube);
-    
+
 
     const lights = [];
     lights[0] = new THREE.PointLight(0xffffff, 1, 0);
@@ -145,131 +145,155 @@ class Viewer extends React.Component {
 
     this.myOBJ.scale.y = this.props.height
     this.myOBJ.scale.z = this.props.depth
+
+    switch (this.props.colour) {
+      case "Natural":
+
+
+        this.colourValue = 0xabc123
+        break
+
+      case "Black":
+
+        this.colourValue = 0xffd537
+
+        break
+      case "White":
+
+        this.colourValue = 0xa6a6a6
+
+        break
+      default: this.colourValue = 0xa6a6a6
+
+
+        
+    }
+    this.myOBJ.material.forEach((item) => {
+          item.color.setHex(this.colourValue)
+        });
   }
 
-  // loadObject = () => {
+    // loadObject = () => {
 
-  //   // var mtlLoader = new MTLLoader();
+    //   // var mtlLoader = new MTLLoader();
 
-  //   const scene = this.scene
-  //   // const newProps = this.props
-  //   // var myObj = this.myObj
+    //   const scene = this.scene
+    //   // const newProps = this.props
+    //   // var myObj = this.myObj
 
-  //   // mtlLoader.setPath('./');
+    //   // mtlLoader.setPath('./');
 
-  //   // mtlLoader.load('2020 Jan Kylie Dillon Bookcase.mtl', function (materials) {
+    //   // mtlLoader.load('2020 Jan Kylie Dillon Bookcase.mtl', function (materials) {
 
-  //   //   materials.preload();
-  //     const objLoader = new THREE.OBJLoader()
+    //   //   materials.preload();
+    //     const objLoader = new THREE.OBJLoader()
 
-  //     objLoader.setPath('./')
-
-
-
-  //     objLoader.load('2020 Jan Kylie Dillon Bookcase.obj', (object) => {
-  //       scene.add(object);
-
-  //       object.scale.set(this.props.height, this.props.width, this.props.depth);
-  //       object.position.set(0, 1000, 0);
-  //       this.myOBJ = object;
-  //       // console.log(`object:${myOBJ}`);
-  //       // console.log(myOBJ.children[0])
-
-
-  //   });
-
-  loadObject = () => {
-
-    const material = new THREE.MeshPhongMaterial({
-      color: 0x156289,
-      emissive: 0x072534,
-      // side: THREE.DoubleSide,
-      flatShading: true
-    });
+    //     objLoader.setPath('./')
 
 
 
-    const scene = this.scene
-    // const newProps = this.props
-    // var myObj = this.myObj
-    var color = new THREE.Color( 0xff0000 )
+    //     objLoader.load('2020 Jan Kylie Dillon Bookcase.obj', (object) => {
+    //       scene.add(object);
 
-    let mtlLoader = new MTLLoader();
-    // mtlLoader.setTexturePath('./2020 Jan Kylie Dillon Bookcase')
-    mtlLoader.setPath('./');
-    mtlLoader.load('2020 Jan Kylie Dillon Bookcase.mtl', (materials) => {
-      console.log(`materials: ${materials}`)
-      materials.preload();
-      let objLoader = new THREE.OBJLoader()
-      // objLoader.setMaterials(material);
-      objLoader.setPath('./')
-      objLoader.load('2020 Jan Kylie Dillon Bookcase.obj', (object) => {
-        // object = object.children[0]
-        scene.add(object);
-        object.scale.set(this.props.height/100, this.props.width/100, this.props.depth/100);
-        // object.position.set(0, 0, 0);
-        this.myOBJ = object.children[0];  
-        object.children[0].material.forEach((item) => 
-        {
-          item.color.setHex(0xadf111)  
-        } );
-        
-        // object.color ='pink'
+    //       object.scale.set(this.props.height, this.props.width, this.props.depth);
+    //       object.position.set(0, 1000, 0);
+    //       this.myOBJ = object;
+    //       // console.log(`object:${myOBJ}`);
+    //       // console.log(myOBJ.children[0])
 
- 
-        console.log(`myOBJ:${this.myOBJ}`);
-        console.log(object);
-      });
-    });
-    
-
-    //   var objLoader = new THREE.OBJLoader();
-    //   // objLoader.setMaterials(materials);
-    //   objLoader.setPath('../src');
-    //   objLoader.load('./2020 Jan Kylie Dillon Bookcase.obj', function (object) {
-
-    //     scene.add(object);
-    //     object.scale.set(2, .5, .5);
 
     //   });
 
-    // // });
+    loadObject = () => {
 
-    // const objLoader = new THREE.OBJLoader()
-    // objLoader.load( './src/2020 Jan Kylie Dillon Bookcase.obj', (object) =>
-    // {
-    //   scene.add(object);
-    //   console.log(`object:${object}`);
-    //   object.scale.set(2, .5, .5)
-    // });
-  }
+      const material = new THREE.MeshPhongMaterial({
+        color: 0x156289,
+        emissive: 0x072534,
+        // side: THREE.DoubleSide,
+        flatShading: true
+      });
 
- resizeRendererToDisplaySize = (renderer) => {
-    const canvas = this.renderer.domElement;
-    const width = canvas.clientWidth
-    const height = canvas.clientHeight
-    const needResize = canvas.width !== width || canvas.height !== height
-    if (needResize)
-    {
-      renderer.setSize(width, height, false)
+
+
+      const scene = this.scene
+      // const newProps = this.props
+      // var myObj = this.myObj
+      var color = new THREE.Color(0xff0000)
+
+      let mtlLoader = new MTLLoader();
+      // mtlLoader.setTexturePath('./2020 Jan Kylie Dillon Bookcase')
+      mtlLoader.setPath('./');
+      mtlLoader.load('2020 Jan Kylie Dillon Bookcase.mtl', (materials) => {
+        console.log(`materials: ${materials}`)
+        materials.preload();
+        let objLoader = new THREE.OBJLoader()
+        // objLoader.setMaterials(material);
+        objLoader.setPath('./')
+        objLoader.load('2020 Jan Kylie Dillon Bookcase.obj', (object) => {
+          // object = object.children[0]
+          scene.add(object);
+          object.scale.set(this.props.height / 100, this.props.width / 100, this.props.depth / 100);
+          // object.position.set(0, 0, 0);
+          this.myOBJ = object.children[0];
+          object.children[0].material.forEach((item) => {
+            item.color.setHex(0xadf111)
+          });
+
+          // object.color ='pink'
+
+
+          console.log(`myOBJ:${this.myOBJ}`);
+          console.log(object);
+        });
+      });
+
+
+      //   var objLoader = new THREE.OBJLoader();
+      //   // objLoader.setMaterials(materials);
+      //   objLoader.setPath('../src');
+      //   objLoader.load('./2020 Jan Kylie Dillon Bookcase.obj', function (object) {
+
+      //     scene.add(object);
+      //     object.scale.set(2, .5, .5);
+
+      //   });
+
+      // // });
+
+      // const objLoader = new THREE.OBJLoader()
+      // objLoader.load( './src/2020 Jan Kylie Dillon Bookcase.obj', (object) =>
+      // {
+      //   scene.add(object);
+      //   console.log(`object:${object}`);
+      //   object.scale.set(2, .5, .5)
+      // });
+    }
+
+    resizeRendererToDisplaySize = (renderer) => {
+      const canvas = this.renderer.domElement;
+      const width = canvas.clientWidth
+      const height = canvas.clientHeight
+      const needResize = canvas.width !== width || canvas.height !== height
+      if (needResize) {
+        renderer.setSize(width, height, false)
+      }
+    }
+
+    startAnimationLoop = () => {
+
+      this.renderer.render(this.scene, this.camera);
+      this.requestID = window.requestAnimationFrame(this.startAnimationLoop);
+      this.resizeRendererToDisplaySize(this.renderer);
+    }
+
+
+
+    render() {
+      return (
+
+        <div className="viewer" ref={ref => (this.el = ref)} />
+      );
     }
   }
 
-  startAnimationLoop = () => {
-    
-    this.renderer.render(this.scene, this.camera);
-    this.requestID = window.requestAnimationFrame(this.startAnimationLoop);
-    this.resizeRendererToDisplaySize(this.renderer);
-  }
-
-
-
-  render() {
-    return (
-    
-    <div className="viewer" ref={ref => (this.el = ref)} />
-    );
-  }
-}
-
-export default connect(mapStateToProps)(Viewer)
+  export default connect(mapStateToProps)(Viewer)
