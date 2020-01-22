@@ -22,7 +22,8 @@ function mapStateToProps(state) {
   return {
     height: state.height,
     width: state.width,
-    depth: state.depth
+    depth: state.depth,
+    colour: state.colour
   }
 }
 
@@ -102,7 +103,7 @@ class Viewer extends React.Component {
     this.scene.add(lights[1]);
     this.scene.add(lights[2]);
 
-    this.loadObject();
+    // this.loadObject();
     let controls = new OrbitControls(this.camera, this.el);
     controls.width = this.el.clientWidth;
     controls.height = 500;
@@ -170,36 +171,47 @@ class Viewer extends React.Component {
 
   loadObject = () => {
 
-    // const material = new THREE.MeshPhongMaterial({
-    //   color: 0x156289,
-    //   emissive: 0x072534,
-    //   side: THREE.DoubleSide,
-    //   flatShading: true
-    // });
+    const material = new THREE.MeshPhongMaterial({
+      color: 0x156289,
+      emissive: 0x072534,
+      // side: THREE.DoubleSide,
+      flatShading: true
+    });
 
 
 
     const scene = this.scene
     // const newProps = this.props
     // var myObj = this.myObj
+    var color = new THREE.Color( 0xff0000 )
 
-    // let mtlLoader = new MTLLoader();
-    // // mtlLoader.setTexturePath('./2020 Jan Kylie Dillon Bookcase')
-    // mtlLoader.setPath('./');
-    // mtlLoader.load('.2020 Jan Kylie Dillon Bookcase.mtl', (materials) => {
-    //   console.log(materials)
-    //   materials.preload();
+    let mtlLoader = new MTLLoader();
+    // mtlLoader.setTexturePath('./2020 Jan Kylie Dillon Bookcase')
+    mtlLoader.setPath('./');
+    mtlLoader.load('2020 Jan Kylie Dillon Bookcase.mtl', (materials) => {
+      console.log(`materials: ${materials}`)
+      materials.preload();
       let objLoader = new THREE.OBJLoader()
       // objLoader.setMaterials(material);
       objLoader.setPath('./')
       objLoader.load('2020 Jan Kylie Dillon Bookcase.obj', (object) => {
+        // object = object.children[0]
         scene.add(object);
         object.scale.set(this.props.height/100, this.props.width/100, this.props.depth/100);
         // object.position.set(0, 0, 0);
-        this.myOBJ = object;     
-        console.log(this.myOBJ);
+        this.myOBJ = object.children[0];  
+        object.children[0].material.forEach((item) => 
+        {
+          item.color.setHex(0xadf111)  
+        } );
+        
+        // object.color ='pink'
+
+ 
+        console.log(`myOBJ:${this.myOBJ}`);
+        console.log(object);
       });
-    // });
+    });
     
 
     //   var objLoader = new THREE.OBJLoader();
@@ -236,7 +248,10 @@ class Viewer extends React.Component {
 
 
   render() {
-    return (<div className="viewer" ref={ref => (this.el = ref)} />);
+    return (
+    
+    <div className="viewer" ref={ref => (this.el = ref)} />
+    );
   }
 }
 
