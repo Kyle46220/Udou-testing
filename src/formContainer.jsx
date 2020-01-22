@@ -20,59 +20,64 @@ class FormContainer extends React.Component {
     this.props.dispatch({ type: "UPDATE_COLOUR", newColour: e.target.value });
   }
 
-  
+  handleButtonClick =(e) => {
+    alert("Hello");
+    console.log(e);
+    
+  }
+
   render() {
     return (
 
-    <form className="slider-form">
-      <label>
-      <Slider
-        type="range"
-        
-        // min={this.props.min}
-        min={0.5}
-        // max={this.props.max}
-        max={3}
-        value={this.props.height}
-        // step={this.props.step}
-        step={0.1}
-        onChange={(e) => {
-          this.props.dispatch({ type: "UPDATE_HEIGHT", newHeight: e.target.value });
-        }}
-      />Height</label>
-      <label>
-      <Slider
-        type="range"
-        
-        // min={this.props.min}
-        min={0.5}
-        // max={this.props.max}
-        max={3}
-        value={this.props.depth}
-        // step={this.props.step}
-        step={0.1}
-        onChange={(e) => {
-          this.props.dispatch({ type: "UPDATE_DEPTH", newDepth: e.target.value });
-        }}
+      <form className="slider-form">
+        <label>
+          <Slider
+            type="range"
 
-      />Depth
+            // min={this.props.min}
+            min={0.5}
+            // max={this.props.max}
+            max={3}
+            value={this.props.height}
+            // step={this.props.step}
+            step={0.1}
+            onChange={(e) => {
+              this.props.dispatch({ type: "UPDATE_HEIGHT", newHeight: e.target.value });
+            }}
+          />Height</label>
+        <label>
+          <Slider
+            type="range"
+
+            // min={this.props.min}
+            min={0.5}
+            // max={this.props.max}
+            max={3}
+            value={this.props.depth}
+            // step={this.props.step}
+            step={0.1}
+            onChange={(e) => {
+              this.props.dispatch({ type: "UPDATE_DEPTH", newDepth: e.target.value });
+            }}
+
+          />Depth
       </label>
-      <label>
-      <Slider
-        type="range"
-        
-        // min={this.props.min}
-        min={0.5}
-        // max={this.props.max}
-        max={3}
-        value={this.props.width}
-        // step={this.props.step}
-        step={0.1}
-        onChange={(e) => {
-          this.props.dispatch({ type: "UPDATE_WIDTH", newWidth: e.target.value });
-        }} />Width</label>
+        <label>
+          <Slider
+            type="range"
 
-      {/* <input
+            // min={this.props.min}
+            min={0.5}
+            // max={this.props.max}
+            max={3}
+            value={this.props.width}
+            // step={this.props.step}
+            step={0.1}
+            onChange={(e) => {
+              this.props.dispatch({ type: "UPDATE_WIDTH", newWidth: e.target.value });
+            }} />Width</label>
+
+        {/* <input
         type="radio"
         name="colourOption"
         onChange={(e) => {
@@ -80,7 +85,7 @@ class FormContainer extends React.Component {
         }}
         value={this.props.colour}></input> */}
 
-      
+
         <div className="radio">
           <label>
             <input type="radio" value="Natural" checked={this.props.colour === "Natural"} onChange={this.handleOptionChange} />
@@ -99,9 +104,9 @@ class FormContainer extends React.Component {
             White
           </label>
         </div>
-      
-      <button>Place Order</button>
-    </form>
+
+        <button onClick={this.handleButtonClick}>Place Order</button>
+      </form>
     )
   }
 }

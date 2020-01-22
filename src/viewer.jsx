@@ -164,45 +164,15 @@ class Viewer extends React.Component {
 
         break
       default: this.colourValue = 0xa6a6a6
-
-
         
     }
+
     this.myOBJ.material.forEach((item) => {
           item.color.setHex(this.colourValue)
         });
   }
 
-    // loadObject = () => {
-
-    //   // var mtlLoader = new MTLLoader();
-
-    //   const scene = this.scene
-    //   // const newProps = this.props
-    //   // var myObj = this.myObj
-
-    //   // mtlLoader.setPath('./');
-
-    //   // mtlLoader.load('2020 Jan Kylie Dillon Bookcase.mtl', function (materials) {
-
-    //   //   materials.preload();
-    //     const objLoader = new THREE.OBJLoader()
-
-    //     objLoader.setPath('./')
-
-
-
-    //     objLoader.load('2020 Jan Kylie Dillon Bookcase.obj', (object) => {
-    //       scene.add(object);
-
-    //       object.scale.set(this.props.height, this.props.width, this.props.depth);
-    //       object.position.set(0, 1000, 0);
-    //       this.myOBJ = object;
-    //       // console.log(`object:${myOBJ}`);
-    //       // console.log(myOBJ.children[0])
-
-
-    //   });
+   
 
     loadObject = () => {
 
@@ -233,13 +203,13 @@ class Viewer extends React.Component {
           // object = object.children[0]
           scene.add(object);
           object.scale.set(this.props.height / 100, this.props.width / 100, this.props.depth / 100);
-          // object.position.set(0, 0, 0);
+          
           this.myOBJ = object.children[0];
           object.children[0].material.forEach((item) => {
             item.color.setHex(0xadf111)
           });
 
-          // object.color ='pink'
+          
 
 
           console.log(`myOBJ:${this.myOBJ}`);
