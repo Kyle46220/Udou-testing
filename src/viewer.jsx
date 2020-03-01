@@ -142,14 +142,11 @@ class Viewer extends React.Component {
   updateScale = () => {
 
     this.myOBJ.scale.x = this.props.width
-
     this.myOBJ.scale.y = this.props.height
     this.myOBJ.scale.z = this.props.depth
 
     switch (this.props.colour) {
       case "Natural":
-
-
         this.colourValue = 0xabc123
         break
 
