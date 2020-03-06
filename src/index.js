@@ -1,62 +1,60 @@
-import React from "react";
-import { render } from "react-dom";
-import Viewer from "./viewer";
+import React from 'react';
+import { render } from 'react-dom';
+import Viewer from './viewer';
 import Slider from './slider.jsx';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import ViewerContainer from './someContainer';
 import FormContainer from './formContainer';
 
-
-const initialState = { height: 2, width: 2, depth: 2, colour: "White" }
+const initialState = {
+	height: 2,
+	width: 2,
+	depth: 2,
+	colour: 'White',
+	test: 5
+};
 
 class App extends React.Component {
+	reducer(state = initialState, action) {
+		let newState = {};
 
+		switch (action.type) {
+			case 'UPDATE_HEIGHT':
+				newState = { ...state, height: action.newHeight };
+				break;
 
-  reducer(state = initialState, action) {
-    let newState = {}
+			case 'UPDATE_WIDTH':
+				newState = { ...state, width: action.newWidth };
+				break;
 
-    switch (action.type) {
-      case "UPDATE_HEIGHT":
-        newState = { ...state, height: action.newHeight };
-        break
+			case 'UPDATE_DEPTH':
+				newState = { ...state, depth: action.newDepth };
+				break;
+			case 'UPDATE_COLOUR':
+				newState = { ...state, colour: action.newColour };
+				break;
+			case 'UPDATE_TEST':
+				newState = { ...state, test: action.newTest };
+				break;
 
-      case "UPDATE_WIDTH":
-        newState = { ...state, width: action.newWidth };
-        break
+			default:
+				newState = { ...state };
+		}
+		return newState;
+	}
 
-      case "UPDATE_DEPTH":
-        newState = { ...state, depth: action.newDepth };
-        break
-      case "UPDATE_COLOUR":
-        newState = { ...state, colour: action.newColour };
-        break
+	store = createStore(this.reducer);
 
-
-      default: newState = { ...state }
-    }
-    return newState
-  }
-
-  store = createStore(this.reducer);
-
-  render() {
-
-    return (
-      <Provider store={this.store}>
-        <div className='config-container'>
-
-
-
-
-          <ViewerContainer />
-          <FormContainer />
-
-        </div>
-      </Provider>
-    )
-
-  };
-
+	render() {
+		return (
+			<Provider store={this.store}>
+				<div className="config-container">
+					<ViewerContainer />
+					<FormContainer />
+				</div>
+			</Provider>
+		);
+	}
 }
-render(<App />, document.getElementById("root"));
+render(<App />, document.getElementById('root'));
